@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Proactive Healthcare Dashboard</title>
+  <title>Prediction Result</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -13,41 +13,29 @@
     h1 {
       color: #333;
     }
-    .button-container {
+    .result {
       margin-top: 40px;
+      font-size: 1.5rem;
+      color: #4CAF50;
+      font-weight: bold;
     }
-    .btn {
+    a {
+      margin-top: 30px;
       display: inline-block;
-      margin: 20px;
-      padding: 20px 40px;
-      font-size: 1.2rem;
-      border: none;
-      border-radius: 12px;
-      background-color: #4CAF50;
-      color: white;
-      cursor: pointer;
-      transition: 0.3s ease;
+      color: #2196F3;
       text-decoration: none;
-    }
-    .btn:hover {
-      background-color: #45a049;
-    }
-    .btn-secondary {
-      background-color: #2196F3;
-    }
-    .btn-secondary:hover {
-      background-color: #0b7dda;
     }
   </style>
 </head>
 <body>
 
-  <h1>Welcome to Proactive Healthcare</h1>
+  <h1>Prediction Result</h1>
 
-  <div class="button-container">
-    <a href="/upload" class="btn">📤 Upload Data</a>
-    <a href="/predictions" class="btn btn-secondary">📈 View Predictions</a>
+  <div class="result">
+    Model predicts: <span>{{ result }}</span>
   </div>
+
+  <a href="/">← Back to Home</a>
 
 </body>
 </html>
