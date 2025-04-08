@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Preview & Submit</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+    input {
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h1>Preview and Submit Data</h1>
+  <form method="POST" action="{{ url_for('submit_csv') }}">
+    <table>
+      <thead>
+        <tr>
+          {% for key in records[0].keys() %}
+            <th>{{ key }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in records %}
+          <tr>
+            {% for value in row.values() %}
+              <td><input name="{{ loop.parent.loop.first and loop.parent.loop.index0 | string }}{{ loop.index0 }}" value="{{ value }}"></td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <br>
+    {% for header in records[0].keys() %}
+      <input type="hidden" name="{{ header }}" value="{{ header }}">
+    {% endfor %}
+    <button type="submit">Submit to MongoDB</button>
+  </form>
+</body>
+</html>
