@@ -1,89 +1,164 @@
-# 🚀 HackToFuture 3.0 Repository Setup Guide
-#### To track your progress and collaborate effectively, every team must fork the official repository and follow the steps below.
-<br>
+I'll update the README.md file with more detailed instructions for MongoDB setup and model training. Here's the updated version:
 
-# 🔱 Fork the Repository
- #### Go to the GitHub page https://github.com/HackToFuture/HTF-XNN <br>
-  #### Click on the "Fork" button in the upper-right corner of the page.
-  #### Assign the repository name as "HTF - *<Team_Code>*".
+```markdown:c:\Users\Palguna\Desktop\proactive_healthcare1\proactive_healthcare\proactive-healthcare-sdoh1\README.md
+# Proactive Healthcare Dashboard
 
-  <img align="center" width = "500" src = "https://docs.github.com/assets/cb-40742/mw-1440/images/help/repository/fork-button.webp" alt="fork image"/>
-  
-  
-  ```
-  Example :
-  <Team_Code> -> A09
-  Repository Name : HTF-A09
+A Flask-based web application for healthcare data management and prediction visualization. This application allows users to upload healthcare data (either individually or via CSV), store it in MongoDB, and visualize hospital admission predictions based on social determinants of health (SDOH).
+
+## Project Structure
+
+```
+proactive-healthcare-sdoh1/
+├── app/
+│   ├── static/
+│   │   ├── images/
+│   │   │   └── doctor.jpg
+│   │   └── style.css
+│   ├── templates/
+│   │   ├── index.html
+│   │   ├── index_upload.html
+│   │   ├── index_view_predictions.html
+│   │   ├── preview_form.html
+│   │   ├── result.html
+│   │   ├── upload.html
+│   │   ├── upload_csv.html
+│   │   └── upload_success.html
+│   ├── app.py
+│   ├── dashboard.py
+│   ├── model.py
+│   └── utils.py
+├── data/
+│   ├── sdoh_karnataka_dataset.csv
+│   └── uploads/
+└── model/
+    └── rf_model.joblib
 ```
 
-# 📥 Clone Your Forked Repository
-  #### Go to your forked repository on GitHub.
-  #### Click the green "Code" button, then click the clipboard icon to copy the URL.
+## Prerequisites
 
-   <img align="center" width = "500" height="200" src = "https://docs.github.com/assets/cb-60499/mw-1440/images/help/repository/https-url-clone-cli.webp" alt="clone image"/>
- 
-  #### Open your terminal and run the following git clone command to copy the repository to your local machine.
-  #### Replace *repository-url* with the URL of your forked repository.
-  ```
-  git clone <repository-url>
+- Python 3.6 or higher
+- MongoDB installed and running on localhost:27017
+- Required Python packages (see installation section)
+
+## Installation
+
+1. Clone the repository or download the source code
+
+2. Install the required Python packages:
+
+```bash
+pip install flask pymongo pandas scikit-learn matplotlib joblib
 ```
 
+3. Set up MongoDB:
+   - Download and install MongoDB Community Edition from [MongoDB website](https://www.mongodb.com/try/download/community)
+   - Start the MongoDB service:
+     ```bash
+     net start MongoDB
+     ```
+   - Verify MongoDB is running by connecting to it:
+     ```bash
+     mongosh
+     ```
+   - Create the healthcare database:
+     ```
+     use healthcare_db
+     ```
+   - Create a collection for records:
+     ```
+     db.createCollection("records")
+     ```
+   - Exit the MongoDB shell:
+     ```
+     exit
+     ```
 
-# 🛠️ Start working on your project
-#### Begin building your solution! Collaborate with your teammates and push changes regularly.
+## Running the Application
 
-# 📝 Commit Your Changes
-#### Track and save your progress using Git:
-#### Check the status of your changes
+1. Navigate to the project directory:
+
+```bash
+cd c:\Users\Palguna\Desktop\proactive_healthcare1\proactive_healthcare\proactive-healthcare-sdoh1
+```
+
+2. Train the machine learning model (optional, will be done automatically if not done):
+
+```bash
+python app/model.py
+```
+
+3. Run the Flask application:
+
+```bash
+python app/app.py
+```
+
+4. Open your web browser and go to: http://127.0.0.1:5000/
+
+## Features
+
+- **Upload Single Record**: Add individual healthcare records through a form
+- **Upload CSV Data**: Bulk upload healthcare records via CSV file
+- **View Predictions**: Visualize hospital admissions data by pincode
+- **Data Preview**: Review and edit CSV data before submitting to the database
+- **MongoDB Integration**: All data is stored in a MongoDB database for persistence
+- **Machine Learning Model**: Predicts hospital admissions based on social determinants of health
+
+## Data Format
+
+The application expects the following data fields:
+
+- Pincode: Postal code (integer)
+- Date: Date in YYYY-MM-DD format
+- UnemploymentRate: Percentage (float)
+- SchoolAttendance: Percentage (float)
+- EvictionRecords: Count (integer)
+- IncomeVariability: Index value (float)
+- SeasonalIllnessIndex: Index value (float)
+- HospitalAdmissions: Count (float)
+
+## Model Training
+
+The application uses a Random Forest Regressor model to predict hospital admissions based on social determinants of health. The model is trained on the dataset provided in `data/sdoh_karnataka_dataset.csv`.
+
+To manually train the model:
+1. Run the model.py script:
+   ```bash
+   python app/model.py
    ```
-    git status
- ```
-  
+2. The trained model will be saved to `data/rf_model.joblib`
+3. Model performance metrics will be displayed in the console
 
-  #### Use the git add command to stage the changes you want to commit
-  ```
-    git add .
- ```
-      
-  #### Commit with a meaningful message
-  #### *Option 1* : Simple Commit Format (Beginner Friendly)
-  #### Use this if you're new to Git
-   ```
-    git commit -m "Your descriptive commit message"
- ```
-#### *Option 2* : Conventional Commits (Recommended)
-#### Follow this format for more structured, professional commit history  
+The model will also be automatically trained if it doesn't exist when the application needs to make predictions.
+
+## Workflow
+
+1. **Upload Data**: 
+   - Use the single record form or CSV upload to add data
+   - For CSV uploads, you'll see a preview of the data before it's submitted
+   - The model will automatically generate predictions for the uploaded data
+
+2. **View Predictions**:
+   - Navigate to the "View Predictions" page to see hospital admissions by pincode
+   - The chart visualizes the total admissions for each pincode
+
+3. **Database Management**:
+   - All data is stored in MongoDB for persistence
+   - You can view and manage the data using MongoDB tools
+
+## Troubleshooting
+
+- If you encounter connection issues with MongoDB:
+  - Ensure the MongoDB service is running: `net start MongoDB`
+  - Check MongoDB connection string in utils.py
+  - Verify you can connect manually: `mongosh`
+
+- For any file upload issues:
+  - Check that the data directory has proper write permissions
+  - Ensure the CSV file format matches the expected fields
+
+- If the model fails to load:
+  - Run the model training script manually: `python app/model.py`
+  - Ensure the model file is saved to `data/rf_model.joblib`
+  - Check for any error messages during model training
 ```
-git commit -m "<type>(<scope>): <subject>"
-```
-| Type | Purpose |
-|----------|----------|
-| feat    | for a new feature for the user, not a new feature for build script. Such commit will trigger a release bumping a MINOR version    |
-| fix    | for a bug fix for the user, not a fix to a build script. Such commit will trigger a release bumping a PATCH version     |
-| perf    | for performance improvements. Such commit will trigger a release bumping a PATCH version    |
-| docs    | for changes to the documentation     |
-| test | for adding missing tests, refactoring tests; no production code change  |
-| style  | for formatting changes, missing semicolons, etc  |
-| refactor | for refactoring production code, e.g. renaming a variable  |
-| build | for updating build configuration, development tools or other changes irrelevant to the user|
-
-#### Scope: Area of change (e.g., api, ui, auth)
-#### Subject: One-line summary in present tense, no period at the end
-
-```
-Example: git commit -m "fix(button): fix submit button not working"
-```
-
-# 🚀 Push Your Changes
-  #### Send your local commits to GitHub:
-  ```
-    git push origin
- ```
-# 🧠 Tips
-#### *Commit often* : Small, frequent commits help track progress and fix bugs easily.
-#### *Write clear messages* : Describe what you did in each commit.
-#### *Collaborate* : Make sure everyone in your team contributes.
-
----
-
-**For any issues or doubts, reach out to the organizing team.** *Happy hacking!* 💻✨
