@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,7 +73,8 @@
         <h1 class="text-primary heading-text mb-3">🏥 Proactive Healthcare Dashboard</h1>
         <p class="lead lead-text mb-4">Select an option to continue</p>
         <div class="btn-section d-grid gap-4">
-          <a href="{{ url_for('upload_form') }}" class="btn btn-lg-custom btn-upload">📤 Upload Data</a>
+          <a href="{{ url_for('upload_form') }}" class="btn btn-lg-custom btn-upload">📤 Upload Single Record</a>
+          <a href="{{ url_for('upload_csv') }}" class="btn btn-lg-custom btn-upload">📄 Upload CSV Data</a>
           <a href="{{ url_for('view_prediction_prompt') }}" class="btn btn-lg-custom btn-view">📊 View Predictions</a>
         </div>
       </div>
@@ -83,11 +83,3 @@
 
 </body>
 </html>
-=======
-#index
-<html>
-    <body>
-        <p>hi</p>
-    </body>
-</html>
->>>>>>> 1e82e1040c418856c9e73401ee24ff707a60c5fe
