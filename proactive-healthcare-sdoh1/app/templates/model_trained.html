@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Model Training Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .metrics {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e6f7ff;
+            border-radius: 5px;
+        }
+        h1 {
+            color: #333;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Model Training Complete</h1>
+        <p>The machine learning model has been successfully trained on the dataset.</p>
+        
+        <div class="metrics">
+            <h2>Model Performance Metrics</h2>
+            <h3>Validation Set Results</h3>
+            <p>MSE: {{ metrics.val_mse|round(4) }}</p>
+            <p>R² Score: {{ metrics.val_r2|round(4) }}</p>
+            
+            <h3>Test Set Results</h3>
+            <p>MSE: {{ metrics.test_mse|round(4) }}</p>
+            <p>R² Score: {{ metrics.test_r2|round(4) }}</p>
+        </div>
+        
+        <p>The model is now ready to make predictions on new data.</p>
+        
+        <a href="{{ url_for('index') }}" class="btn">Return to Home</a>
+    </div>
+</body>
+</html>

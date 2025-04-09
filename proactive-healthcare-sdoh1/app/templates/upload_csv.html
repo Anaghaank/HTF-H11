@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Upload CSV Data</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+
+  <style>
+    body {
+      background: #f7fcff;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .upload-card {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 40px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      animation: slideFade 0.6s ease-in-out;
+    }
+
+    @keyframes slideFade {
+      0% {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .upload-card h2 {
+      color: #28a745;
+      font-weight: 700;
+    }
+
+    .btn-primary {
+      background: linear-gradient(to right, #007bff, #0056b3);
+      border: none;
+      padding: 10px 20px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: background 0.3s ease-in-out;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(to right, #0056b3, #004080);
+    }
+
+    .btn-secondary {
+      font-weight: 600;
+    }
+
+    .file-upload {
+      border: 2px dashed #ccc;
+      padding: 30px;
+      text-align: center;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      transition: all 0.3s;
+    }
+
+    .file-upload:hover {
+      border-color: #28a745;
+    }
+
+    .file-upload-label {
+      display: block;
+      margin-bottom: 15px;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="upload-card shadow-sm">
+    <h2 class="mb-4">📤 Upload CSV Data</h2>
+    <p class="lead">Upload a CSV file with healthcare records to analyze and store in the database.</p>
+
+    <form method="POST" enctype="multipart/form-data">
+      <div class="file-upload">
+        <label for="file-input" class="file-upload-label">Choose a CSV file or drag it here</label>
+        <input type="file" id="file-input" name="file" class="form-control" accept=".csv" required>
+      </div>
+
+      <div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-primary">🚀 Upload & Preview</button>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">⬅ Back</a>
+      </div>
+    </form>
+
+    <div class="mt-4">
+      <p><strong>Note:</strong> The CSV file should contain the following columns:</p>
+      <ul>
+        <li>Pincode</li>
+        <li>Date</li>
+        <li>UnemploymentRate</li>
+        <li>SchoolAttendance</li>
+        <li>EvictionRecords</li>
+        <li>IncomeVariability</li>
+        <li>SeasonalIllnessIndex</li>
+        <li>HospitalAdmissions</li>
+      </ul>
+    </div>
+  </div>
+
+</body>
+</html>
