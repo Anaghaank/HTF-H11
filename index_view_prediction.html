@@ -1,41 +1,152 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Prediction Result</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f4f8fb;
-      text-align: center;
-      padding-top: 100px;
-    }
-    h1 {
-      color: #333;
-    }
-    .result {
-      margin-top: 40px;
-      font-size: 1.5rem;
-      color: #4CAF50;
-      font-weight: bold;
-    }
-    a {
-      margin-top: 30px;
-      display: inline-block;
-      color: #2196F3;
-      text-decoration: none;
-    }
-  </style>
+    <title>View Predictions</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .chart-container {
+            position: relative;
+            height: 60vh;
+            width: 80vw;
+            margin: 0 auto;
+        }
+        .data-count {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <h1>Hospital Admissions by Pincode</h1>
+        <div class="data-count">
+            <p>Showing data for {{ count }} records</p>
+        </div>
+        <div class="chart-container">
+            <canvas id="admissionsChart"></canvas>
+        </div>
+    </div>
 
-  <h1>Prediction Result</h1>
+<script>
+  // Ensure we're parsing the JSON data correctly
+  const data = JSON.parse('{{ predictions|tojson|safe }}');
+  console.log("Loaded data:", data); // Debug output to browser console
+  
+  // Group data by pincode for actual admissions
+  const groupedActual = {};
+  // Group data by pincode for predicted admissions
+  const groupedPredicted = {};
+  
+  data.forEach(record => {
+    // Make sure we're using the correct field name and handling missing values
+    const pin = record.Pincode;
+    if (!pin) {
+      console.log("Record missing Pincode:", record);
+      return; // Skip records without pincode
+    }
+    
+    // Process actual hospital admissions
+    const actualAdmissions = record.HospitalAdmissions || 0;
+    if (!groupedActual[pin]) groupedActual[pin] = 0;
+    groupedActual[pin] += parseFloat(actualAdmissions);
+    
+    // Process predicted hospital admissions
+    const predictedAdmissions = record.PredictedHospitalAdmissions || 0;
+    if (!groupedPredicted[pin]) groupedPredicted[pin] = 0;
+    groupedPredicted[pin] += parseFloat(predictedAdmissions);
+  });
 
-  <div class="result">
-    Model predicts: <span>{{ result }}</span>
-  </div>
+  console.log("Grouped actual data:", groupedActual); // Debug output
+  console.log("Grouped predicted data:", groupedPredicted); // Debug output
+  
+  // Get unique pincodes from both datasets
+  const pincodes = [...new Set([...Object.keys(groupedActual), ...Object.keys(groupedPredicted)])].sort();
+  
+  // Prepare data arrays for the chart
+  const actualAdmissions = pincodes.map(pin => groupedActual[pin] || 0);
+  const predictedAdmissions = pincodes.map(pin => groupedPredicted[pin] || 0);
 
-  <a href="/">← Back to Home</a>
-
+  // Create the chart
+  const ctx = document.getElementById('admissionsChart').getContext('2d');
+  const chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: pincodes,
+      datasets: [
+        {
+          label: 'Actual Hospital Admissions',
+          data: actualAdmissions,
+          backgroundColor: 'rgba(54, 162, 235, 0.7)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1
+        },
+        {
+          label: 'Predicted Hospital Admissions',
+          data: predictedAdmissions,
+          backgroundColor: 'rgba(255, 99, 132, 0.7)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Number of Admissions'
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Pincode'
+          }
+        }
+      },
+      plugins: {
+        title: {
+          display: true,
+          text: 'Actual vs Predicted Hospital Admissions by Pincode',
+          font: {
+            size: 18
+          }
+        },
+        legend: {
+          position: 'top'
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return `${context.dataset.label}: ${context.raw.toFixed(2)}`;
+            }
+          }
+        }
+      }
+    }
+  });
+</script>
 </body>
 </html>
