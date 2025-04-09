@@ -1,46 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Upload Successful</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Upload Success</title>
     <style>
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: #f4f8fb;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 100px;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
         }
-        .card {
-            background: white;
-            padding: 30px 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             text-align: center;
+        }
+        h1 {
+            color: #28a745;
         }
         .btn {
             display: inline-block;
-            margin: 15px 10px;
-            padding: 10px 20px;
             background-color: #007bff;
-            border-radius: 5px;
-            text-decoration: none;
             color: white;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-        .btn:hover {
-            background-color: #0056b3;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h2>✅ Data submitted successfully!</h2>
-        <a href="{{ url_for('upload_form') }}" class="btn">➕ Submit another response</a>
-        <a href="{{ url_for('view_prediction_prompt') }}" class="btn">📊 View Predictions</a>
+    <div class="container">
+        <h1>✅ Upload Successful!</h1>
+        <p>Your data has been successfully uploaded to the database.</p>
+        <a href="/view-prediction" class="btn">View Predictions</a>
     </div>
 </body>
 </html>
