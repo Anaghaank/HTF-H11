@@ -1,0 +1,62 @@
+<!-- templates/upload.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Data</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f4;
+            padding: 20px;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            margin: auto;
+        }
+        input, label {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        input[type="submit"] {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2 align="center">📤 Upload New Record</h2>
+    <form method="POST">
+        <label>Pincode:</label>
+        <input type="text" name="Pincode" required>
+
+        <label>Date (YYYY-MM-DD):</label>
+        <input type="date" name="Date" required>
+
+        <label>Unemployment Rate:</label>
+        <input type="text" name="UnemploymentRate" required>
+
+        <label>School Attendance:</label>
+        <input type="text" name="SchoolAttendance" required>
+
+        <label>Eviction Records:</label>
+        <input type="number" name="EvictionRecords" required>
+
+        <label>Income Variability:</label>
+        <input type="text" name="IncomeVariability" required>
+
+        <label>Seasonal Illness Index:</label>
+        <input type="text" name="SeasonalIllnessIndex" required>
+
+        <label>Hospital Admissions:</label>
+        <input type="text" name="HospitalAdmissions" required>
+
+        <input type="submit" value="Submit Record">
+    </form>
+</body>
+</html>
