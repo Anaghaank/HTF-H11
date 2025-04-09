@@ -14,32 +14,51 @@
     input {
       width: 100%;
     }
+    .prediction-highlight {
+      background-color: #e6f7ff;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
   <h1>Preview and Submit Data</h1>
+  
+  {% if records[0] and 'PredictedHospitalAdmissions' in records[0] %}
+  <div class="prediction-summary" style="margin: 20px 0; padding: 15px; background-color: #f0f8ff; border-radius: 5px; border: 1px solid #ccc;">
+    <h3>📊 Prediction Results</h3>
+    <p>The model has generated hospital admission predictions based on the uploaded data.</p>
+  </div>
+  {% endif %}
+  
   <form method="POST" action="{{ url_for('submit_csv') }}">
+    <button type="submit">Submit to MongoDB</button>
     <table>
       <thead>
         <tr>
           {% for key in records[0].keys() %}
-            <th>{{ key }}</th>
+            <th {% if key == 'PredictedHospitalAdmissions' %}class="prediction-highlight"{% endif %}>{{ key }}</th>
           {% endfor %}
         </tr>
       </thead>
       <tbody>
-        {% for row in records %}
+        {% for row_index in range(records|length) %}
           <tr>
-            {% for value in row.values() %}
-              <td><input name="{{ loop.parent.loop.first and loop.parent.loop.index0 | string }}{{ loop.index0 }}" value="{{ value }}"></td>
+            {% set row = records[row_index] %}
+            {% set keys = row.keys()|list %}
+            {% for col_index in range(keys|length) %}
+              {% set key = keys[col_index] %}
+              <td {% if key == 'PredictedHospitalAdmissions' %}class="prediction-highlight"{% endif %}>
+                <input name="field_{{ row_index }}_{{ col_index }}" value="{{ row[key] }}">
+              </td>
             {% endfor %}
           </tr>
         {% endfor %}
       </tbody>
     </table>
     <br>
-    {% for header in records[0].keys() %}
-      <input type="hidden" name="{{ header }}" value="{{ header }}">
+    {% set headers = records[0].keys()|list %}
+    {% for index in range(headers|length) %}
+      <input type="hidden" name="header_{{ index }}" value="{{ headers[index] }}">
     {% endfor %}
     <button type="submit">Submit to MongoDB</button>
   </form>
